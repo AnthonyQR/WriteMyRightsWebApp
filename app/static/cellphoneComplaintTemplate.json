@@ -1,0 +1,308 @@
+{
+  "id": "cellphone-complaint-template",
+  "name": "Cellphone Complaint Template",
+  
+  "document": {
+    "content": [
+      {
+        "id": "date",
+        "subquestion": false,
+        "label": "Date",
+        "resultLabel": "Auto-populated as of today, but can change to future date if preferred",
+        "autoSubmit": true,
+        "required": false,
+        "input": {
+          "type": "date"
+        }
+      },
+      {
+        "id": "name",
+        "subquestion": false,
+        "label": "What is your name?",
+        "resultLabel": "Name",
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      {
+        "id": "address",
+        "subquestion": false,
+        "label": "What is your address?",
+        "resultLabel": "Address",
+        "autoSubmit": true,
+          "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      {
+        "id": "cellphoneCompany",
+        "subquestion": false,
+        "label": "Which cellphone company do you use?",
+        "resultLabel": "Cellphone company",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      {
+        "id": "cellphoneCompanyAddress",
+        "subquestion": false,
+        "label": "What is the company's address?",
+        "resultLabel": "Cellphone Company Address",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      {
+        "id": "customerTimePeriod",
+        "subquestion": false,
+        "label": "How long have you been a customer?",
+        "resultLabel": "Customer Time Period",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "select",
+          "options": [
+            {
+              "label": "Less than a year",
+              "value": "Less than a year"
+            },
+            {
+              "label": "More than one year, less than 3",
+              "value": "More than one year, less than 3"
+            },
+            {
+              "label": "More than 3 years",
+              "value": "More than 3 years"
+            }
+          ]
+        }
+      },
+      {
+        "id": "oweAmount",
+        "subquestion": false,
+        "label": "How much do you think they owe you?",
+        "resultLabel": "Owe Amount",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      {
+        "id": "overchargeReason",
+        "subquestion": false,
+        "label": "What did they overcharge you for?",
+        "resultLabel": "Overcharge reason",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "select",
+          "options": [
+            {
+              "label": "Going over on data",
+              "value": "Going over on data"
+            },
+            {
+              "label": "Extra voice charges (long distance)",
+              "value": "Extra voice charges (long distance)"
+            },
+            {
+              "label": "Random 'extra' charges (like an activation fee)",
+              "value": "Random 'extra' charges (like an activation fee)"
+            },
+            {
+              "label": "I'm not sure / Not listed here",
+              "value": "I'm not sure / Not listed here"
+            }
+          ]
+        }
+      },
+      {
+        "id": "dealtCustomerService",
+        "subquestion": false,
+        "label": "Have you already tried to deal with customer service?",
+        "resultLabel": "Dealt Customer Service",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "select",
+          "options": [
+            {
+              "label": "Yes",
+              "value": "Yes",
+              "subquestionReferenceId": "dealtCustomerServiceYes"
+            },
+            {
+              "label": "No",
+              "value": "No"
+            }
+          ]
+        }
+      },
+      {
+        "id": "dealtCustomerServiceYes",
+        "subquestion": true,
+        "label": "If so, tell us who you spoke with and when? (name, date)",
+        "resultLabel": "Dealt Customer Service Yes",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      {
+        "id": "promiseRefund",
+        "subquestion": false,
+        "label": "Did they already promise to give you some kind of refund?",
+        "resultLabel": "promise refund",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "select",
+          "options": [
+            {
+              "label": "Yes",
+              "value": "Yes",
+              "subquestionReferenceId": "amountRefund"
+            },
+            {
+              "label": "No",
+              "value": "No"
+            }
+          ]
+        }
+      },
+      {
+        "id": "amountRefund",
+        "subquestion": true,
+        "label": "If so, please specify the amount of refund ($) promised.",
+        "resultLabel": "amountRefund",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      
+      {
+        "id": "typeofContract",
+        "subquestion": false,
+        "label": "Are you on a contract or just month to month?",
+        "resultLabel": "typeofContract",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "select",
+          "options": [
+            {
+              "label": "Contract",
+              "value": "Contract"
+            },
+            {
+              "label": "Month-to-Month",
+              "value": "Month-to-Month"
+            },
+            {
+              "label": "Not sure",
+              "value": "Not sure"
+            }
+          ]
+        }
+      },
+      {
+        "id": "deadline",
+        "subquestion": false,
+        "label": "What deadline do you want to give for them to respond?",
+        "resultLabel": "deadline",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "select",
+          "options": [
+            {
+              "label": "3 days",
+              "value": "3 days"
+            },
+            {
+              "label": "5 days",
+              "value": "5 days"
+            },
+            {
+              "label": "1 week",
+              "value": "1 week"
+            },
+            {
+              "label": "2 weeks",
+              "value": "2 weeks"
+            }
+          ]
+        }
+      },
+      {
+        "id": "refuseRefund",
+        "subquestion": false,
+        "label": "What might you do if they still refuse a refund?",
+        "resultLabel": "refuseRefund",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "select",
+          "options": [
+            {
+              "label": "Contact the local regulator",
+              "value": "Contact the local regulator"
+            },
+            {
+              "label": "File a lawsuit in small claims",
+              "value": "File a lawsuit in small claims"
+            },
+            {
+              "label": "Air my concern over social media or in the local news",
+              "value": "Air my concern over social media or in the local news"
+            }
+          ]
+        }
+      },
+      {
+        "id": "emailAddress",
+        "subquestion": false,
+        "label": "What’s your email address (where we can send you your letter)?",
+        "resultLabel": "Email Address",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      {
+        "id": "verifyEmailAddress",
+        "subquestion": false,
+        "label": "Type your email address again for verification.",
+        "resultLabel": "Verify Email Address",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      
+      {
+        "id": "phoneNum",
+        "subquestion": false,
+        "label": "Optional: What is your phone number?",
+        "resultLabel": "If you’d like to give  the cell phone company the opportunity to call you back.",
+        "autoSubmit": true,
+        "required": false,
+        "input": {
+          "type": "text"
+        }
+      }
+    ]
+  }
+}

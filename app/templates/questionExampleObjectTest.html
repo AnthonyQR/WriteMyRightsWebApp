@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/questions.css') }}">
+    <title>Write My Rights</title>
+    <!-- Montserrat Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <a href="/index"><img class="greylogo" src="{{ url_for('static',filename='images/Write my Rights.PNG') }}"/></a>
+    
+    <div class="progressDiv">
+        <svg class="progressBar">
+            <rect id="progressBarBG" x="20%" width="60%" height="10px" style="fill: #dddddd;" rx="8" ry="8" />
+            <rect id="progressBarFill" x="20%" width="0%" height="10px" style="fill: #303852;" rx="8" ry="8" />
+        </svg>
+    </div>
+
+    <form id="form" action="{{url_for('success')}}" method="post">
+
+        <div id="questionsContainer" class="questionDiv"></div>
+        <br>
+        <div class="buttonDiv">
+            <img id="backArrow" src="{{url_for('static', filename='images/black back arrow.png')}}" alt="Back" class="frontArrow" />
+            <!-- <a href="/letterType"><img src="{{url_for('static', filename='images/black back arrow.png')}}" alt="Back" class="backArrow"/></a> -->
+            <img id="frontArrow" src="{{url_for('static', filename='images/black arrow.png')}}" alt="Next" class="frontArrow" />
+            <!-- <input type="image" name="submit" src="{{url_for('static', filename='images/black arrow.png')}}" alt="Next" class="frontArrow"/> -->
+            <input id="submit" type="submit" value="Submit" style="  background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 16px 32px;
+            text-decoration: none;
+            margin: 4px 2px;
+            cursor: pointer;">
+
+        </div>
+
+    </form>
+
+    <script>
+        document.getElementById("submit").style.visibility = "hidden";
+        const questionSet = new Set();
+        questionSet.add("select");
+        questionSet.add("text");
+
+
+        // generate a question object constructor (created the type of question below)
+        function Question(options, question) {
+            this.options = options;
+            this.question = question;
+            this.textbox = document.createElement("textarea");
+            this.date = document.createElement("input");
+            this.optionInput = null;
+            this.optionLabel = null;
+        }
+        // prototype of radio questions
+        Question.prototype.createRadios = function() {
+            // displaying radio buttons + options for each "select" type question
+            let optionCount = 0;
+            for (let eachOption in this.options){
+                this.optionInput = document.createElement("input");
+                this.optionLabel = document.createElement('label');
+                this.optionInput.setAttribute("type", "radio");
+                this.optionInput.setAttribute("name", "question" + String(count))
+                this.optionInput.setAttribute("id", "question" + String(count) + "option" + String(optionCount));
+                this.optionInput.setAttribute("value", this.options[eachOption].value);
+                this.optionInput.className = "radioButtons";
+                this.optionLabel.setAttribute('for', "question" + String(count) + "option" + String(optionCount));
+                this.optionLabel.innerHTML = this.options[eachOption].label;
+                this.question.appendChild(this.optionInput);
+                this.question.appendChild(this.optionLabel);
+                optionCount++;
+            }
+        }
+
+        // prototype of textarea questions
+        Question.prototype.createText = function() {
+            // currently using textareas for each "text" type question
+            this.textbox.className = "questionInput";
+            this.question.appendChild(this.textbox);
+        }
+
+        // prototype of textarea questions
+        Question.prototype.createDate = function() {
+            // currently using textareas for each "text" type question
+            this.date.className = "dateInput";
+            this.date.setAttribute("type", "date");
+            this.date.setAttribute("value", "2014-02-09");
+            this.question.appendChild(this.date);
+        }
+
+
+
+        let questionIndex = 0;
+
+        // reading the json file
+        var data = JSON.parse('{{ data | tojson | safe}}');
+        console.log(data);
+        let count = 0;
+        let questionsContainer = document.getElementById('questionsContainer');
+        for (let each in data.document.content){
+            let question = document.createElement("div");
+            question.className = "questionDiv";
+            question.style.display = "none";
+            question.id = "question" + String(count);
+            
+            let questionHeader = document.createElement("P");
+            let questionHeaderContent = document.createTextNode((parseInt(each) + 1) + ")  " + data.document.content[each].label);
+            questionHeader.className = "questionText";   // Class for styling
+            questionHeader.appendChild(questionHeaderContent);
+            question.appendChild(questionHeader);
+            let option = new Question(data.document.content[each].input.options, question);
+
+            if (data.document.content[each].input.type === "select"){  // displaying questions that are type select
+                question.className += " questionRadioDiv";
+                option.createRadios();
+            }
+            else if (data.document.content[each].input.type === "text") {  // diplaying questions that are type text
+                // currently using textareas for each "text" type question
+                option.createText();
+            }
+            else if (data.document.content[each].input.type === "date") {
+                option.createDate();
+            }
+                    
+            questionsContainer.appendChild(question);
+
+            count++;
+        }
+
+        showIndexedQuestion();
+        updateProgressBar();
+
+        function updateProgressBar() {
+            document.getElementById("progressBarFill").setAttribute("width", String(60 * (questionIndex + 1) / count) + "%");
+        }
+
+        function showIndexedQuestion() {
+            console.log("Tried to show index " + questionIndex);
+            document.getElementById("question" + String(questionIndex)).style.display = "block"; // Show question div.
+        }
+
+        function hideIndexedQuestion() {
+            document.getElementById("question" + String(questionIndex)).style.display = "none"; // Hides question div.
+        }
+
+        
+        function back() {
+            let submit = document.getElementById("submit");
+            submit.style.visibility="hidden";
+            if (questionIndex == 0) {
+                console.log("Can't go back");
+            } else {
+                hideIndexedQuestion();
+                questionIndex--;
+                showIndexedQuestion();
+
+                updateProgressBar();
+            }
+        }
+        
+        function forward() {
+            if (questionIndex == data.document.content.length - 1) {
+                let submit = document.getElementById("submit");
+                submit.style.visibility="visible";
+                console.log("Can't go Forward");
+            } else {
+                hideIndexedQuestion();
+                questionIndex++;
+                showIndexedQuestion();
+
+                updateProgressBar();
+            }
+        }
+
+        let backArrow = document.getElementById("backArrow");
+        let frontArrow = document.getElementById("frontArrow");
+        backArrow.onclick = back;
+        frontArrow.onclick = forward;
+    </script>
+</body>
+</html>

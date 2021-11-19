@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/questions.css') }}">
+    <title>Write My Rights</title>
+    <!-- Montserrat Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <a href="/index"><img class="greylogo" src="{{ url_for('static',filename='images/Write my Rights.PNG') }}"/></a>
+    
+    <div class="progressDiv">
+        <svg class="progressBar">
+            <rect id="progressBarBG" x="20%" width="60%" height="10px" style="fill: #dddddd;" rx="8" ry="8" />
+            <rect id="progressBarFill" x="20%" width="0%" height="10px" style="fill: #303852;" rx="8" ry="8" />
+        </svg>
+    </div>
+
+    <form action="{{url_for('answer')}}" method="post">
+    <!-- <div class="questionDiv">
+        <p class="questionText">What is your full name?</p>
+        <input type="text" class="questionInput" placeholder="ex. John Smith" name="answer" required maxlength="150">
+    </div> -->
+    
+    <div id="questionsContainer" class="questionDiv"></div>
+
+    <br>
+
+    <div class="buttonDiv">
+        <img id="backArrow" src="{{url_for('static', filename='images/black back arrow.png')}}" alt="Back" class="frontArrow" />
+        <!-- <a href="/letterType"><img src="{{url_for('static', filename='images/black back arrow.png')}}" alt="Back" class="backArrow"/></a> -->
+        <img id="frontArrow" src="{{url_for('static', filename='images/black arrow.png')}}" alt="Next" class="frontArrow" />
+        <!-- <input type="image" name="submit" src="{{url_for('static', filename='images/black arrow.png')}}" alt="Next" class="frontArrow"/> -->
+    </div>
+    </form>
+
+    <script>
+        let questionIndex = 0;
+
+        // Collection of object identifiers for answer cookie storage.
+        // {questionID: {"method": funcToRetrieveAnswerFromQuestion()}}
+        let answerControlElements = {}; 
+
+        let answers = {};   // Collection of answers. {questionID: ans}
+        let questionIDs = [];   // QuestionID mapped to indexes.
+        let questionHistory = [];   // History of question ID's for back navigation. TODO!!!
+
+        // reading the json file
+        var data = JSON.parse('{{ data | tojson | safe}}');
+        console.log(data);
+        let count = 0;
+        let questionsContainer = document.getElementById('questionsContainer');
+        for (let each in data.document.content){
+            let question = document.createElement("div");
+            question.className = "questionDiv";
+            question.style.display = "none";
+            question.id = "question" + String(count) + "display";
+            
+            let questionHeader = document.createElement("P");
+            let questionHeaderContent = document.createTextNode(each + ")  " + data.document.content[each].label);
+            questionHeader.className = "questionText";   // Class for styling
+            questionHeader.appendChild(questionHeaderContent);
+            question.appendChild(questionHeader);
+
+            if (data.document.content[each].input.type === "select"){  // displaying questions that are type select
+                question.className += " questionRadioDiv";
+
+                // Add control element to answerControlElements.
+                console.log("Select:", data.document.content[each].id);
+                answerControlElements[data.document.content[each].id] = {id: data.document.content[each].id, method: () => { return getValueByInputElementNameRadio(data.document.content[each].id); }};
+
+                // displaying radio buttons + options for each "select" type question
+                let optionCount = 0;
+                for (let eachOption in data.document.content[each].input.options){
+                    let optionInput = document.createElement("input");
+                    optionInput.setAttribute("type", "radio");
+                    optionInput.setAttribute("name", data.document.content[each].id)
+
+                    optionInput.setAttribute("id", "question" + String(count) + "option" + String(optionCount));
+                    optionInput.setAttribute("value", data.document.content[each].input.options[eachOption].value);
+                    optionInput.className = "radioButtons";
+                    let optionLabel = document.createElement('label');
+                    optionLabel.setAttribute('for', "question" + String(count) + "option" + String(optionCount));
+                    optionLabel.innerHTML = data.document.content[each].input.options[eachOption].label;
+                    question.appendChild(optionInput);
+                    question.appendChild(optionLabel);
+
+                    optionCount++;
+                }
+            }
+            else if (data.document.content[each].input.type === "text"){  // diplaying questions that are type text
+                let textbox = document.createElement("input");
+                textbox.type = 'text';
+                textbox.className = "questionInput";
+                textbox.id = data.document.content[each].id;
+
+                // Add control element to answerControlElements.
+                answerControlElements[data.document.content[each].id] = {id: data.document.content[each].id, method: () => { return getValueByElementID(data.document.content[each].id); }};
+
+                question.appendChild(textbox);
+
+            } else if (data.document.content[each].input.type === "date") {
+                // Add control element to answerControlElements.
+                answerControlElements[data.document.content[each].id] = {id: data.document.content[each].id, method: () => { return getValueByInputElementNameDate(data.document.content[each].id); }};
+
+                let markupDate = `
+                    <p class="questionText">${data.document.content[each].label}</p>
+                    <input type="date" class="questionInput" placeholder="yyyy-mm-dd" value="" name="${data.document.content[each].id}" required="" maxlength="50">
+                                
+                    <input type="hidden" value="hire_date" name="key">
+                    <input type="hidden" value="/employment" name="letter_type">
+                    <input type="hidden" value="/question9" name="next_page">
+                `;
+                question.innerHTML = markupDate;
+            } else if (data.document.content[each].input.type === "checkbox") {
+                // Add control element to answerControlElements.
+                answerControlElements[data.document.content[each].id] = {id: data.document.content[each].id, method: () => { return getValueByInputElementNameCheckbox(data.document.content[each].id, data.document.content[each].input.options.length); }};
+
+                let markup = `
+                    <p class="questionText">${data.document.content[each].label}</p>
+                `;
+                let optionCount = 0;
+                for (let eachOption in data.document.content[each].input.options){
+                    // markup += `<input type="checkbox" name="${data.document.content[each].id + data.document.content[eachOption].value}" value="${data.document.content[eachOption].value}" onclick="disable()" class="checkbox">
+                    //             <p class="checkboxText" onclick="toggleCheckBoxByName(${data.document.content[each].id + data.document.content[each].value})">${data.document.content[each].input.options[eachOption].label} </p>
+                    //             <br>
+                    //             `
+                    markup += `<input type="checkbox" name="${data.document.content[each].id}" id="${data.document.content[each].input.options[eachOption].value}" value="${data.document.content[each].input.options[eachOption].value}" class="checkbox">
+                                <label for="${data.document.content[each].input.options[eachOption].value}" class="checkboxText">${data.document.content[each].input.options[eachOption].label} </label>
+                                <br><br>
+                                `
+
+                    optionCount++;
+                }
+                question.innerHTML = markup;
+            } else {
+                
+                answerControlElements[data.document.content[each].id] = {id: data.document.content[each].id, method: () => { return getValueNotImplemented(data.document.content[each].id); }};
+                let markup = `
+                <p class="questionText">${data.document.content[each].label}</p>
+                Questions type has not been implemented
+                `
+                question.innerHTML = markup;
+            }
+            questionIDs.push(data.document.content[each].id);   // Add question IDs to array if not subquestion.
+            questionsContainer.appendChild(question);
+
+            count++;
+        }
+
+        // Debugging
+        console.log(answerControlElements);
+        console.log("questionID's", questionIDs);
+
+        function getValueByElementID(id) {
+            console.log("Element ID:", id);
+            ans = document.getElementById(id).value; 
+            if (ans == "") {
+                return null;
+            }
+            return ans;
+        }
+
+        function getValueByInputElementNameRadio(name) {
+            console.log("Element name:", name);
+            if (document.querySelector('input[name="' + name + '"]:checked')) {
+                ans = document.querySelector('input[name="' + name + '"]:checked').value;
+                return ans;
+            } else {
+                return null;
+            }
+        }
+
+        function getValueByInputElementNameCheckbox(name, numOfOptions) {
+            console.log("Element name:", name);
+            console.log("Num of options:", numOfOptions);
+            let ans = []
+            console.log(document.querySelectorAll('input[name="' + name + '"]').value);
+            console.log(document.querySelectorAll('input[name="' + name + '"]'));
+            console.log(document.querySelectorAll('input[name="' + name + '"]:checked'));
+            
+            if (document.querySelectorAll('input[name="' + name + '"]')) {
+                // let ans = document.querySelectorAll('input[name="' + name + '"]').value;
+                // return ans;
+                for (let i = 0; i < document.querySelectorAll('input[name="' + name + '"]:checked').length; i++) {
+                    ans.push(document.querySelectorAll('input[name="' + name + '"]:checked')[i].value);
+                }
+                return ans;
+
+            } else {
+                return null;
+            }
+        }
+
+        function getValueByInputElementNameDate(name) {
+            console.log("Element name:", name);
+            if (document.querySelector('input[name="' + name + '"]')) {
+                ans = document.querySelector('input[name="' + name + '"]').value;
+                return ans;
+            } else {
+                return null;
+            }
+        }
+
+        function getValueNotImplemented(pass) {
+            return "Not implemented";
+        }
+
+        function toggleCheckBoxByName(name) {
+            // data.document.content[each].id + data.document.content[eachOption].value
+            console.log("Element name:", name);
+            if (document.querySelector('input[name="' + name + '"]')) {
+                checkBox = document.querySelector('input[name="' + name + '"]').value;
+                checkBox.checked = !checkBox.checked;
+            } else {
+                return null;
+            }
+        }
+
+        showIndexedQuestion();
+        updateProgressBar();
+        document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });   // Clear cookies.
+
+        function updateProgressBar() {
+            document.getElementById("progressBarFill").setAttribute("width", String(60 * (questionIndex + 1) / count) + "%");
+        }
+
+        function showIndexedQuestion() {
+            console.log("Tried to show index " + questionIndex);
+            // console.log(answers);
+            document.getElementById("question" + String(questionIndex) + "display").style.display = "block"; // Show question div.
+        }
+
+        function hideIndexedQuestion() {
+            document.getElementById("question" + String(questionIndex) + "display").style.display = "none"; // Hides question div.
+        }
+
+        
+        function back() {
+            if (questionIndex == 0) {
+                console.log("Can't go back");
+            } else {
+                hideIndexedQuestion();
+                questionIndex--;
+                showIndexedQuestion();
+
+                updateProgressBar();
+            }
+        }
+        
+        function forward() {
+            if (questionIndex == data.document.content.length - 1) {
+                console.log("Simulate submission");
+                pushCookies();
+            } else {
+                if (!isValidAnswer()) {
+                    console.log("Invalid Answer");
+                    return;
+                }
+                processAnswerCookie();
+                hideIndexedQuestion();
+                questionIndex++;
+                showIndexedQuestion();
+
+                updateProgressBar();
+            }
+        }
+
+        function pushCookies() {
+            cookieString = "";
+            for (let key in answers) {
+                cookieString += key + "=" + answers[key] + "; ";
+            }
+            console.log(cookieString);
+            document.cookie = cookieString;
+        }
+
+        function processAnswerCookie() {
+            
+            console.log("Question info:", data.document.content[questionIndex]);
+            let ans;
+            console.log("answerControlElements", answerControlElements);
+            ans = getAnswerControlElementByQuestionIndex().method();
+            answers[questionIDs[questionIndex]] = ans;
+            console.log("Answers:", answers);
+        }
+
+        function getAnswerControlElementByQuestionIndex() {
+            // console.log("Getting questionID:", questionIDs[questionIndex]);
+            // console.log("Retrieved Element:", answerControlElements[questionIDs[questionIndex]]);
+            return answerControlElements[questionIDs[questionIndex]];
+        }
+
+        function isValidAnswer() {
+            // console.log("Element:", questionIDs[questionIndex]);
+            // console.log("Element returns:", answerControlElements[questionIDs[questionIndex]].method());
+            // return answerControlElements[questionIDs[questionIndex]].method() != null;
+            return true;
+        }
+
+        let backArrow = document.getElementById("backArrow");
+        let frontArrow = document.getElementById("frontArrow");
+        backArrow.onclick = back;
+        frontArrow.onclick = forward;
+    </script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+{
+    "id": "flws-satisfaction",
+    "name": "Satisfaction survey",
+    "spreadsheet": {
+      "creditDev":"...credentialsDev",
+      "creditProd":"...credentialsProd"
+    },
+    "document": {
+      "nodeType": "NodeType.document",
+      "content": [
+        {
+          "nodeType": "NodeType.question",
+          "id": "avoidLegalIssue",
+          "label":
+            "Do you think your visit will help you avoid or resolve a legal issue?",
+          "resultLabel": "Avoid legal issue?",
+          "autoSubmit": true,
+          "validation": {
+            "required": true
+          },
+          "input": {
+            "type": "select",
+            "presentation": "radio",
+            "display": "cards",
+            "options": [
+              {
+                "type": "simple",
+                "label": "Yes",
+                "value": "Yes",
+                "icon": "faSmile",
+                "iconColor": "#84BD00"
+              },
+              {
+                "type": "simple",
+                "label": "No",
+                "value": "No",
+                "icon": "faFrown",
+                "iconColor": "#BD0006"
+              },
+              {
+                "type": "simple",
+                "label": "Unsure",
+                "value": "Unsure",
+                "icon": "faMeh",
+                "iconColor": "#8D9092"
+              }
+            ]
+          }
+        },
+        {
+          "nodeType": "NodeType.question",
+          "id": "typeLegalIssue",
+          "label": "What type of legal issue led you to visit us today?",
+          "resultLabel": "Type of legal issue",
+          "validation": {
+            "required": true
+          },
+          "input": {
+            "type": "text"
+          }
+        },
+        {
+          "nodeType": "NodeType.question",
+          "id": "findInformation",
+          "label": "Were you able to find the information you were looking for?",
+          "resultLabel": "Able to find?",
+          "autoSubmit": true,
+          "validation": {
+            "required": true
+          },
+          "input": {
+            "type": "select",
+            "presentation": "radio",
+            "options": [
+              {
+                "type": "simple",
+                "label": "Yes",
+                "value": "Yes",
+                "icon": "faSmile",
+                "iconColor": "#84BD00"
+              },
+              {
+                "type": "simple",
+                "label": "No",
+                "value": "No",
+                "icon": "faFrown",
+                "iconColor": "#BD0006"
+              },
+              {
+                "type": "simple",
+                "label": "Unsure",
+                "value": "Unsure",
+                "icon": "faMeh",
+                "iconColor": "#8D9092"
+              }
+            ]
+          }
+        },
+        {
+          "nodeType": "NodeType.question",
+          "id": "frustration",
+          "label":
+            "What, if anything, did you find frustrating or unappealing about this website?",
+          "resultLabel": "Frustrations",
+          "validation": {
+            "required": true
+          },
+          "input": {
+            "type": "text"
+          }
+        },
+        {
+          "nodeType": "NodeType.question",
+          "id": "recommend",
+          "label":
+            "How likely would you be to recommend us to somebody in your situation?",
+          "resultLabel": "How likely to recommend?",
+          "autoSubmit": true,
+          "validation": {
+            "required": true
+          },
+          "input": {
+            "type": "select",
+            "presentation": "radio",
+            "options": [
+                {
+                  "type": "simple",
+                  "label": "0",
+                  "value": "0",
+                  "icon": ""
+                },
+                {
+                  "type": "simple",
+                  "label": "1",
+                  "value": "1",
+                  "icon": "",
+                  "iconColor": "#BD0006"
+                },
+                {
+                  "type": "simple",
+                  "label": "2",
+                  "value": "2",
+                  "icon": "",
+                  "iconColor": "#8D9092"
+                },
+                {
+                    "type": "simple",
+                    "label": "3",
+                    "value": "3",
+                    "icon": "faMeh",
+                    "iconColor": "#8D9092"
+                },
+                {
+                    "type": "simple",
+                    "label": "4",
+                    "value": "4",
+                    "icon": "faMeh",
+                    "iconColor": "#8D9092"
+                },
+                {
+                    "type": "simple",
+                    "label": "5",
+                    "value": "5",
+                    "icon": "faMeh",
+                    "iconColor": "#8D9092"
+                },
+                {
+                    "type": "simple",
+                    "label": "6",
+                    "value": "6",
+                    "icon": "faMeh",
+                    "iconColor": "#8D9092"
+                },
+                {
+                    "type": "simple",
+                    "label": "7",
+                    "value": "7",
+                    "icon": "faMeh",
+                    "iconColor": "#8D9092"
+                },
+                {
+                    "type": "simple",
+                    "label": "8",
+                    "value": "8",
+                    "icon": "faMeh",
+                    "iconColor": "#8D9092"
+                },
+                {
+                    "type": "simple",
+                    "label": "9",
+                    "value": "9",
+                    "icon": "faMeh",
+                    "iconColor": "#8D9092"
+                },                {
+                    "type": "simple",
+                    "label": "10",
+                    "value": "10",
+                    "icon": "faMeh",
+                    "iconColor": "#8D9092"
+                }
+              ]
+          }
+        }
+      ]
+    }
+  }

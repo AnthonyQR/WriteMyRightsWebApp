@@ -1,0 +1,293 @@
+{
+  "id": "employment-layoff-template",
+  "name": "Employment Layoff Template",
+  
+  "document": {
+    "content": [
+      {
+        "id": "date",
+        "subquestion": false,
+        "label": "Date",
+        "resultLabel": "Auto-populated as of today, but can change to future date if preferred",
+        "autoSubmit": true,
+        "required": false,
+        "input": {
+          "type": "date",
+          "display": "cards"
+        }
+      },
+      {
+        "id": "employeeName",
+        "subquestion": false,
+        "label": "What is your name?",
+        "resultLabel": "Employee name",
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      {
+        "id": "employeeAddress",
+        "subquestion": false,
+        "label": "What is your address?",
+        "resultLabel": "Employee Address",
+        "autoSubmit": true,
+          "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      {
+        "id": "employerName",
+        "subquestion": false,
+        "label": "What is your employer's name?",
+        "resultLabel": "Employer Name",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      {
+        "id": "employerAddress",
+        "subquestion": false,
+        "label": "What is your employer's address?",
+        "resultLabel": "Employer Address",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      {
+        "id": "bossName",
+        "subquestion": false,
+        "label": "What is the name of your boss?",
+        "resultLabel": "Employer Address",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      {
+        "id": "tone",
+        "subquestion": false,
+        "label": "What 'tone' should this letter have?",
+        "resultLabel": "Letter Tone",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "select",
+          "options": [
+            {
+              "label": "Annoyed; but I want to assert my rights",
+              "value": "Annoyed"
+            },
+            {
+              "label": "Strongly worded; I feel pretty wronged here",
+              "value": "Strongly worded"
+            },
+            {
+              "label": "Just, sad, really; let’s work something out",
+              "value": "Just, sad, really"
+            }
+          ]
+        }
+      },
+      {
+        "id": "emailOrMail",
+        "subquestion": false,
+        "label": "Will you email this or send it in the mail?",
+        "resultLabel": "Email or Mail",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "select",
+          "options": [
+            {
+              "label": "Email",
+              "value": "Email"
+            },
+            {
+              "label": "Mail",
+              "value": "Mail"
+            }
+          ]
+        }
+      },
+      {
+        "id": "jobTitle",
+        "subquestion": false,
+        "label": "What was your job title?",
+        "resultLabel": "Job Title",
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      {
+        "id": "numYears",
+        "subquestion": false,
+        "label": "How long did you work there? (X years Y months)",
+        "resultLabel": "Number of years/months",
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      {
+        "id": "numExperience",
+        "subquestion": false,
+        "label": "How many years of experience do you have in your field? (X years Y months)",
+        "resultLabel": "Number of experience years/months",
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      {
+        "id": "newJob",
+        "subquestion": false,
+        "label": "How long do you think it will it take you to find a new job?",
+        "resultLabel": "New Job",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "select",
+          "options": [
+            {
+              "label": "Up to one month",
+              "value": "Up to one month"
+            },
+            {
+              "label": "Between 1 and 3 months",
+              "value": "Between 1 and 3 months"
+            },
+            {
+              "label": "Between 3 and 6 months",
+              "value": "Between 3 and 6 months"
+            },
+            {
+              "label": "More than 6 months",
+              "value": "More than 6 months"
+            }
+          ]
+        }
+      },
+      {
+        "id": "severence",
+        "subquestion": false,
+        "label": "Have you been offered any severance?",
+        "resultLabel": "severence",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "select",
+          "options": [
+            {
+              "label": "Yes",
+              "value": "Yes",
+              "subquestionReferenceId": "severenceYes"
+            },
+            {
+              "label": "No",
+              "value": "No"
+            }
+          ]
+        }
+      },
+      {
+        "id": "severenceYes",
+        "subquestion": true,
+        "label": "If so, how much?",
+        "resultLabel": "severenceAmt",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      {
+        "id": "deserve",
+        "subquestion": false,
+        "label": "What do you feel like you deserve in the circumstances?",
+        "resultLabel": "deserve",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "checkbox",
+          "options": [
+            {
+              "label": "Additional severance payment",
+              "value": "Additional severance payment",
+              "subquestionReferenceId": "additionalSeverance"
+            },
+            {
+              "label": "Unpaid vacation time",
+              "value": "Unpaid vacation time",
+              "subquestionReferenceId": "unpaidVacation"
+            },
+            {
+              "label": "A written apology",
+              "value": "A written apology"
+            }
+          ]
+        }
+      },
+      {
+        "id": "additionalSeverance",
+        "subquestion": true,
+        "label": "How much severance do you want to demand (in weeks)?",
+        "resultLabel": "additionalSeverance",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      {
+        "id": "unpaidVacation",
+        "subquestion": true,
+        "label": "How much unpaid vacation are you owed (in weeks)?",
+        "resultLabel": "unpaidVacation",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "text"
+        }
+      },
+      
+      {
+        "id": "deadline",
+        "subquestion": false,
+        "label": "What deadline do you want to give for them to respond?",
+        "resultLabel": "deadline",
+        "autoSubmit": true,
+        "required": true,
+        "input": {
+          "type": "select",
+          "options": [
+            {
+              "label": "3 days",
+              "value": "3 days"
+            },
+            {
+              "label": "5 days",
+              "value": "5 days"
+            },
+            {
+              "label": "1 week",
+              "value": "1 week"
+            },
+            {
+              "label": "2 weeks",
+              "value": "2 weeks"
+            }
+          ]
+        }
+      }
+      
+    ]
+  }
+}

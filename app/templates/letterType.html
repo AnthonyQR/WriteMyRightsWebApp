@@ -9,8 +9,8 @@
         <style>
             @font-face {
             font-family: Philosopher;
-            src: url('./fonts/Philosopher-Regular.ttf');
-          }
+            src: url('./fonts/Philosopher-Regular.ttf'); 
+            }
         </style>
         <title></title>
         <meta charset = 'UTF8'>
@@ -29,11 +29,19 @@
             <h2 id="wrmDescription">Ready for us to Write Your Rights? Select your type of letter.</b>
             </br></br>
             <div class="float_center">
-                <ul class="child">
-                  <li><div id="employee">
+                <ul class="child" id="allOptions">
+                    <li>
+                    <div id="employee">
                     <a href="./questions/employment/question1"><img src="{{url_for('static', filename='images/employees.jpg')}}" width="50" height="50"/></a>
                     <p style="font-size:11px; color:black">Employment</p>
-                    </div></li>
+                    </div>
+                    </li>
+                    <li>
+                    <div id="employee">
+                        <a href="./cellphone"><img src="{{url_for('static', filename='images/cellphone.jpg')}}" width="50" height="50"/></a>
+                        <p style="font-size:11px; color:black">Cellphone</p>
+                    </div>
+                    </li>
                 </ul>
                 <div class="clear"></div>
             </div>

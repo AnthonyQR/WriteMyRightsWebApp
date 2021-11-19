@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/questions.css') }}">
+    <title>Write My Rights</title>
+    <!-- Montserrat Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <a href="/index"><img class="greylogo" src="{{ url_for('static',filename='images/Write my Rights.PNG') }}" /></a>
+
+    <div class="progressDiv">
+        <svg class="progressBarOne" width="1100 px" height="20 px">
+            <!--
+                TODO: Dynamic progress bar
+                <rect width="1000px" height="10px" style="fill: #dddddd;" rx="8" ry="8" />
+                <rect width="176px" height="10px" style="fill: #303852;" rx="8" ry="8" />
+            -->
+        </svg>
+    </div>
+
+    <form action="{{url_for('answer')}}" method="post">
+        <div class="questionDiv">
+            <!-- TODO: Add questions here, potentially including some hidden fields (but with different links/values/purposes) -->
+        </div>
+
+        <br>
+
+        <div class="buttonDiv">
+            <!-- TODO: Back button linking -->
+            <a href="#">
+                <img src="{{url_for('static', filename='images/black back arrow.png')}}" alt="Back" class="backArrow">
+            </a>
+            <input type="image" name="submit" src="{{url_for('static', filename='images/black arrow.png')}}" alt="Next"
+                class="frontArrow" />
+        </div>
+    </form>
+
+    <!--
+        TODO: We-write scripts for pulling existing values from cookies.
+        Format:
+            <script src="{{url_for('static', filename='scriptnamegoeshere')}}"></script>
+        Some scripts for questions (to replace "scriptnamegoeshere"):
+            questionInputTextFill.js
+            questionInputRadioFill.js
+            questionInputDropdownFill.js
+    -->
+
+</body>
+
+</html>
